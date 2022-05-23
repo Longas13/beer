@@ -1,0 +1,26 @@
+:root {
+  --primary: #008cba;
+  --dark: #131a26;
+  --light: #eee;
+  --light-grey: #d3d3d3;
+}
+.navbar {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--dark);
+}
+.navbar .links {
+  margin-left: auto;
+}
+.navbar a {
+  margin-left: 16px;
+  text-decoration: none;
+  padding: 6px;
+}
+.navbar a:hover {
+  color: var(--primary);
+}
