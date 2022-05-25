@@ -8,17 +8,17 @@ const FurtherDetails = (props) => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        setAllBeer(props)
-    }, [props])
+        const findSingleBeer = async () => {
+            const urlId = Math.floor(window.location.pathname.slice(9))
+            const findBeer = await allBeer.allBeer.find(beer => beer.id === urlId)
+            setIsLoading(false)
+            setAllBeer(props)
+            setFoundedBeer(findBeer)
+        }
+        findSingleBeer()
+    }, [allBeer.allBeer, props])
 
-    useEffect(() => {
-        const urlId = window.location.pathname.slice(9)
-        const urlIdNumber = Math.floor(urlId)
-        const newArr = allBeer.allBeer
-        const findBeer = newArr.find(x => x.id === urlIdNumber)
-        setIsLoading(false)
-        return setFoundedBeer(findBeer)
-    }, [allBeer.allBeer])
+    const methods = foundedBeer.method
 
     return (
         <>
@@ -34,16 +34,27 @@ const FurtherDetails = (props) => {
                         <div className="beer-brewed"><b>Founded: </b>{foundedBeer.first_brewed}</div>
                         <div className="beer-ph"><b>PH: </b>{foundedBeer.ph}</div>
                         <div className="beer-food"><b>Food pairing: </b>
-                            <ul>
-                                {foundedBeer.food_pairing.map((food) => {
-                                    return (<li key={food}>{food}</li>)
-                                })}
-                            </ul></div>
+                            {foundedBeer.food_pairing.map((food) => {
+                                return (<p key={food}>- {food}</p>)
+                            })}
+                        </div>
                         <div className="beer-tips">
                             <b>Tips: </b>
                             {foundedBeer.brewers_tips}</div>
                         <div className="beer-method">
-                            {/* <b>Method: </b>{method} */}
+                            <b>Fermentation temperature: </b>
+                            {methods.fermentation.temp.value} {methods.fermentation.temp.unit}
+                            <br />
+                            {methods.twist === null ? "" : (<><b>Twist: </b>{methods.twist}</>)}
+                            <br />
+                            {methods.mash_temp.map((temp) => {
+                                return (
+                                    <><b key={temp.temp.value}>Mash temp: </b>
+                                        {temp.duration ? `${temp.duration} minutes at ` : ""}
+                                        {temp.temp.value} {temp.temp.unit} <br />
+                                    </>
+                                )
+                            })}
                         </div>
                     </div>
                 </div>
